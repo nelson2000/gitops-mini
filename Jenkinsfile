@@ -16,8 +16,8 @@ pipeline{
 //         sh "cd /home/jenkins/jenkins/gitops-mini/"
 //         sh "az acr login -n thanosbranch"
 //         sh "docker build -t gitops:1.0 . "
-//       }
-//     }
+      }
+    }
 //     stage("Image Scanning"){
 //       steps{
 //          echo "Image Scanned and passed"
