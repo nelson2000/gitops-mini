@@ -45,7 +45,7 @@ pipeline{
     stage("Push Image"){
       steps{
         
-         sh 'az acr login --name thanosbranch --expose-token --output tsv --query accessToken'
+         sh 'az acr login --name thanosbranch --expose-token --output tsv --query accessToken > /home/jenkins/jenkins/token.txt'
 //          echo '$TOKEN'
 //          sh 'docker login --username thanosbranch --password-stdin $TOKEN'
         
