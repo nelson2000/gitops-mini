@@ -12,7 +12,9 @@ pipeline {
         echo "Building images ...."
         withCredentials([azureServicePrincipal('AZURE_CREDS')]) {
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
-          sh "az acr login --name ${env.ACR_NAME}"
+            sh 'export TOKEN=${az acr login -n thanosbranch --expose-token}'
+            echo $TOKEN
+           
  
           }
         }
@@ -20,3 +22,5 @@ pipeline {
     
     }
 }
+
+ # sh "sudo docker login -n ${env.ACR_NAME} -p $TOKEN"
