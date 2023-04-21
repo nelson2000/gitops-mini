@@ -14,9 +14,7 @@ pipeline{
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
         }
         
-//         sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
-//          sh 'docker login --username foo --password-stdin $TOKEN'
-//         sh 'docker login thanosbranch.azurecr.io --username thanosbranch -p $DOCKER_PASSWORD'
+
             
              sh "cd /home/jenkins/jenkins/gitops-mini/"
 //               sh "az acr login -n thanosbranch"
@@ -46,9 +44,12 @@ pipeline{
     }
     stage("Push Image"){
       steps{
-           sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
-            echo '$TOKEN'
-           sh "docker login thanosbranch.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKEN"
+        
+         sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
+         echo '$TOKEN'
+         sh 'docker login --username thanosbranch --password-stdin $TOKEN'
+        
+//            sh "docker login thanosbranch.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKEN"
            sh "sudo docker push thanosbranch.azurecr.io/gitops:1.0"
           
       }
