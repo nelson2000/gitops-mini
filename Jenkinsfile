@@ -46,11 +46,10 @@ pipeline{
     }
     stage("Push Image"){
       steps{
-        
-        withDockerRegistry(credentialsId: 'ACR_CREDS', url: 'http://thanosbranch.azurecr.io/') {
+           sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
+           sh "docker login thanosbranch.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKEN"
            sh "sudo docker push thanosbranch.azurecr.io/gitops:1.0"
-        }
-           
+          
       }
     }
 
