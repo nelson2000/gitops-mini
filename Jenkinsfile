@@ -1,92 +1,50 @@
-// node {
-//     def app
-
-//     stage('Clone repository') {
-      
-
-//         checkout scm
-//     }
-
-//     stage('Build image') {
-  
-//        app = docker.build("raj80dockerid/test")
-//     }
-
-//     stage('Test image') {
-  
-
-//         app.inside {
-//             sh 'echo "Tests passed"'
-//         }
-//     }
-
-//     stage('Push image') {
-        
-//         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-//             app.push("${env.BUILD_NUMBER}")
-//         }
-//     }
-    
-//     stage('Trigger ManifestUpdate') {
-//                 echo "triggering updatemanifestjob"
-//                 build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
-//         }
-// }
 
 
-pipeline {
-    agent any
+pipeline{
+  agent any
+  tools{
+    maven "maven3.9"
+  }
+  stages{
 
-    stages {
-        
-        //  stage ('checkout code') {
-
-        //     steps {
-        //         echo 'check out code from scm '
-        //         checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nelson2000/gitops-mini.git']])
-    
-        //     }
-        // }
-
-        stage ('build image') {
-
-            steps {
-                echo 'build docker image from dockerfile '
-
-                sh '''#!/bin/bash
-                    cd /home/jenkins/jenkins/gitops-mini/
-                        az acr login
-                        docker build -it gitops:1.0 .
-                '''
-            }
-        }
-
-        stage('Test Image') {
-            
-                echo "Image tested and passed"
-            
-        } 
-
-        stage('Tag Image') {
-            
-              sh ''' 
-
-                echo 'retag the image for the final push'
-
-                docker tag gitops:1.0 thanosbranch.azurecr.io/gitops:1.0
-
-              '''
-            
-        }
-
-        stage('Push Image') {
-            
-        sh ''' 
-            docker push thanosbranch.azurecr.io/gitops:1.0
-
-        '''
-            
-        }
-
+    stage("Build Image"){
+      steps{
+        echo "Building images ...."
+        sh "cd /home/jenkins/jenkins/gitops-mini/"
+        sh "az acr login thanosbranch"
+        sh "docker build -it gitops:1.0 . "
+      }
     }
+    stage("Image Scanning"){
+      steps{
+         echo "Image Scanned and passed"
+      }
+    }
+    stage("Approval after Scan"){
+      steps{
+        timeout(time:5, unit:'DAYS'){
+        input message: 'Approval for Image Tag and Push'
+      }
+    }
+  }
+
+    stage("Tag Image"){
+      steps{
+        echo "retag the image for the final push"
+        sh "docker tag gitops:1.0 thanosbranch.azurecr.io/gitops:1.0"
+      }
+    }
+    stage("Push Image"){
+      steps{
+            sh "docker push thanosbranch.azurecr.io/gitops:1.0"
+      }
+    }
+
+    stage("Email Notification"){
+      steps{
+        echo "Email has been sent"
+        // emailext body: 'This is Build Success', subject: 'Build Success', to: 'nelson.nwajie@gmail.com'
+      }
+    }
+  }
 }
