@@ -11,7 +11,7 @@ pipeline{
       steps{
         echo "Building images ...."
         sh "cd /home/jenkins/jenkins/gitops-mini/"
-        sh "az acr login -n thanosbranch"
+//         sh "az acr login -n thanosbranch"
         sh "docker build -it gitops:1.0 . "
       }
     }
