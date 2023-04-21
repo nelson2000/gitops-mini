@@ -17,10 +17,10 @@ pipeline{
 //         sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
 //          sh 'docker login --username foo --password-stdin $TOKEN'
 //         sh 'docker login thanosbranch.azurecr.io --username thanosbranch -p $DOCKER_PASSWORD'
-
+            
              sh "cd /home/jenkins/jenkins/gitops-mini/"
 //               sh "az acr login -n thanosbranch"
-            sh "docker build -t gitops:1.0 . "
+            sh "sudo docker build -t gitops:1.0 . "
           
     
       }
