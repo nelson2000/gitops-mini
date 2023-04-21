@@ -38,16 +38,25 @@ pipeline {
     agent any
 
     stages {
+        
+         stage ('checkout code') {
+
+            steps {
+                echo 'check out code from scm '
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nelson2000/gitops-mini.git']])
+    
+            }
+        }
 
         stage ('build image') {
 
             steps {
-                echo 'Hello, '
+                echo 'build docker image from dockerfile '
 
                 sh '''#!/bin/bash
                     cd /home/jenkins/jenkins/gitops-mini/
                         az acr login
-                        docker build  -it gitops:1.0 .
+                        docker build -it gitops:1.0 .
                 '''
             }
         }
