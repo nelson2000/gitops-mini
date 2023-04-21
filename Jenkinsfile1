@@ -12,11 +12,11 @@ pipeline {
         echo "Building images ...."
         withCredentials([azureServicePrincipal('AZURE_CREDS')]) {
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
-            sh 'TOKEN=${az acr login -n thanosbranch --expose-token}'
-            echo $TOKEN
-           
- 
           }
+          
+            sh 'TOKEN=${az acr login -n thanosbranch --expose-token}'
+            echo $TOKEN      
+          
         }
       }
     
