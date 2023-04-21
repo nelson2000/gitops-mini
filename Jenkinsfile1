@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  environment {
+    ACR_NAME = 'thanosbranch'
+    AZURE_CREDENTIALS_ID = 'AZURE_CREDS'
+  }
+  stages {
+    stage('Build') {
+      steps {
+        // Authenticate to ACR using Azure CLI
+        withCredentials([azureServicePrincipal(
+                          credentialsId: "${env.AZURE_CREDENTIALS_ID}",
+                          subscriptionId: "${env.SUBSCRIPTION_ID}",
+                          clientId: "${env.CLIENT_ID}",
+                          clientSecret: "${env.PASSWORD}",
+                          tenantId: "${env.TENANT_ID}"
+                        )]) {
+          sh "az acr login --name ${env.ACR_NAME}"
+          // Build and push your Docker image to ACR
+          sh "docker build -t ${env.ACR_NAME}.azurecr.io/myimage:${env.BUILD_NUMBER} ."
+          sh "docker push ${env.ACR_NAME}.azurecr.io/myimage:${env.BUILD_NUMBER}"
+        }
+      }
+    }
+  }
+}
