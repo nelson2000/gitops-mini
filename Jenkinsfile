@@ -41,14 +41,14 @@ pipeline{
     stage("Tag Image"){
      steps{
         echo "retag the image for the final push"
-        sh "docker tag gitops:1.0 thanosbranch.azurecr.io/gitops:1.0"
+        sh "sudo docker tag gitops:1.0 thanosbranch.azurecr.io/gitops:1.0"
       }
     }
     stage("Push Image"){
       steps{
         
         withDockerRegistry(credentialsId: 'ACR_CREDS', url: 'http://thanosbranch.azurecr.io/') {
-           sh "docker push thanosbranch.azurecr.io/gitops:1.0"
+           sh "sudo docker push thanosbranch.azurecr.io/gitops:1.0"
         }
            
       }
