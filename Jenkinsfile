@@ -39,14 +39,14 @@ pipeline {
 
     stages {
         
-         stage ('checkout code') {
+        //  stage ('checkout code') {
 
-            steps {
-                echo 'check out code from scm '
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nelson2000/gitops-mini.git']])
+        //     steps {
+        //         echo 'check out code from scm '
+        //         checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/nelson2000/gitops-mini.git']])
     
-            }
-        }
+        //     }
+        // }
 
         stage ('build image') {
 
