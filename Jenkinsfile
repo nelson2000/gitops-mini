@@ -15,7 +15,7 @@ pipeline{
         }
         
         sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
-        echo '$TOKEN' | sh 'docker login --username foo --password-stdin'
+         sh 'docker login --username foo --password-stdin $TOKEN'
 //         sh 'docker login thanosbranch.azurecr.io --username thanosbranch -p $DOCKER_PASSWORD'
 
 //               sh "cd /home/jenkins/jenkins/gitops-mini/"
