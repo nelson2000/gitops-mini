@@ -11,11 +11,12 @@ pipeline{
       steps{
         echo "Building images ...."
         withCredentials([azureServicePrincipal('AZURE_CREDS')]) {
-            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'   
+              sh "cd /home/jenkins/jenkins/gitops-mini/"
+              sh "az acr login -n thanosbranch"
+            sh "docker build -t gitops:1.0 . "
           }
-        sh "cd /home/jenkins/jenkins/gitops-mini/"
-        sh "az acr login -n thanosbranch"
-        sh "docker build -t gitops:1.0 . "
+    
       }
     }
 //     stage("Image Scanning"){
