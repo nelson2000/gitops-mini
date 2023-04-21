@@ -14,8 +14,8 @@ pipeline{
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
         }
         
-        TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)
-        echo $TOKEN
+        sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
+        echo '$TOKEN'
         
 //               sh "cd /home/jenkins/jenkins/gitops-mini/"
 //               sh "az acr login -n thanosbranch"
