@@ -23,4 +23,4 @@ pipeline {
     }
 }
 
- # sh "sudo docker login -n ${env.ACR_NAME} -p $TOKEN"
+
