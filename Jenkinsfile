@@ -14,13 +14,13 @@ pipeline{
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
         }
         
-        sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
-         sh 'docker login --username foo --password-stdin $TOKEN'
+//         sh 'TOKEN=$(az acr login --name thanosbranch --expose-token --output tsv --query accessToken)'
+//          sh 'docker login --username foo --password-stdin $TOKEN'
 //         sh 'docker login thanosbranch.azurecr.io --username thanosbranch -p $DOCKER_PASSWORD'
 
-//               sh "cd /home/jenkins/jenkins/gitops-mini/"
+             sh "cd /home/jenkins/jenkins/gitops-mini/"
 //               sh "az acr login -n thanosbranch"
-//             sh "docker build -t gitops:1.0 . "
+            sh "docker build -t gitops:1.0 . "
           
     
       }
