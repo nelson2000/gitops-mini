@@ -47,7 +47,8 @@ pipeline{
         
          sh 'az acr login --name thanosbranch --expose-token --output tsv --query accessToken > /home/jenkins/jenkins/token.txt'
          sh 'cat /home/jenkins/jenkins/token.txt'
-          sh 'sudo docker login --username thanosbranch --password-stdin cat /home/jenkins/jenkins/token.txt'
+        export 'TOKEN=${cat /home/jenkins/jenkins/token.txt}'
+          sh 'sudo docker login --username 00000000-0000-0000-0000-000000000000  -p $TOKEN
         
 //            sh "docker login thanosbranch.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKEN"
 //            sh "sudo docker push thanosbranch.azurecr.io/gitops:1.0"
