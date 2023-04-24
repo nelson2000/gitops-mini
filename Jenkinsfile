@@ -1,9 +1,9 @@
 
-
-pipeline{
+pipeline {
   agent any
-  tools{
-    maven "maven3.9"
+  environment {
+    docker_username = 'nwajienelson'
+    docker_password = 'docker_password'
   }
   stages{
 
@@ -36,7 +36,7 @@ pipeline{
     }
     stage("Push Image"){
       steps{
-        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+        sh 'docker login -u $docker_username -p $docker_password'
         sh "docker push nwajienelson/gitops:1.0"
           
       }
