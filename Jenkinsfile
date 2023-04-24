@@ -9,19 +9,11 @@ pipeline{
 
     stage("Build Image"){
       steps{
-        echo "Building images ...."
-        withCredentials([azureServicePrincipal('AZURE_CREDS')]) {
-            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'  
+
         }
         
+      sh "sudo docker build -t gitops:1.0 .
 
-            
-             sh "cd /home/jenkins/jenkins/gitops-mini/"
-//               sh "az acr login -n thanosbranch"
-            sh "sudo docker build -t gitops:1.0 . "
-          
-    
-      }
     }
     stage("Image Scanning"){
       steps{
@@ -39,19 +31,13 @@ pipeline{
     stage("Tag Image"){
      steps{
         echo "retag the image for the final push"
-        sh "sudo docker tag gitops:1.0 thanosbranch.azurecr.io/gitops:1.0"
+       sh "sudo docker tag gitops:1.0 nwajienenelson/gitops:1.0"
       }
     }
     stage("Push Image"){
       steps{
-        
-         sh 'az acr login --name thanosbranch --expose-token --output tsv --query accessToken > /home/jenkins/jenkins/token.txt'
-         sh 'cat /home/jenkins/jenkins/token.txt'
-        export 'TOKEN=${cat /home/jenkins/jenkins/token.txt}'
-          sh 'sudo docker login --username 00000000-0000-0000-0000-000000000000  -p $TOKEN
-        
-//            sh "docker login thanosbranch.azurecr.io -u 00000000-0000-0000-0000-000000000000 -p $TOKEN"
-//            sh "sudo docker push thanosbranch.azurecr.io/gitops:1.0"
+        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+        sh "docker push nwajienelson/gitops:1.0"
           
       }
     }
