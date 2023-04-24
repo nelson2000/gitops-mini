@@ -32,7 +32,7 @@ pipeline {
     stage("Tag Image"){
      steps{
         echo "retag the image for the final push"
-       sh "sudo docker tag gitops:1.0 nwajienenelson/gitops:1.0"
+       sh "sudo docker tag gitops:1.0 nwajienelson/gitops:1.0"
       }
     }
     stage("Push Image"){
