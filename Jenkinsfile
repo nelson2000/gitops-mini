@@ -9,11 +9,11 @@ pipeline {
 
     stage("Build Image"){
       steps{
-
-        }
         
-      sh "sudo docker build -t gitops:1.0 ."
+        sh "sudo docker build -t gitops:1.0 ."
 
+        }     
+      
     }
     stage("Image Scanning"){
       steps{
