@@ -3,14 +3,13 @@ pipeline {
   agent any
   environment {
     docker_username = 'nwajienelson'
-    docker_password = 'dckr_pat_QbHOG8o60kDM2Q-NM5ywq5kK8Zw'
   }
   stages{
 
     stage("Build Image"){
       steps{
         
-        sh "sudo docker build -t gitops:1.0 ."
+        sh "sudo docker build -t gitops:1.1 ."
         sh "sudo docker images"
 
         }     
@@ -32,13 +31,19 @@ pipeline {
     stage("Tag Image"){
      steps{
         echo "retag the image for the final push"
-       sh "sudo docker tag gitops:1.0 nwajienelson/gitops:1.0"
+       sh "sudo docker tag gitops:1.1 nwajienelson/gitops:1.0"
       }
     }
     stage("Push Image"){
       steps{
+        
+        withCredentials([string(credentialsId: 'docker_password', variable: 'docker_password')]) {
+          
         sh 'docker login -u $docker_username -p $docker_password'
-        sh "docker push nwajienelson/gitops:1.0"
+        sh "docker push nwajienelson/gitops:1.1"
+   
+        }
+ 
           
       }
     }
