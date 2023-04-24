@@ -2,7 +2,7 @@
 pipeline {
   agent any
   environment {
-    docker_username = 'nwajienelson'
+    docker_username = "nwajienelson"
   }
   stages{
 
