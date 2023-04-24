@@ -3,7 +3,7 @@ pipeline {
   agent any
   environment {
     docker_username = 'nwajienelson'
-    docker_password = 'docker_password'
+    docker_password = 'dckr_pat_QbHOG8o60kDM2Q-NM5ywq5kK8Zw'
   }
   stages{
 
