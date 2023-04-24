@@ -9,7 +9,7 @@ pipeline {
     stage("Build Image"){
       steps{
         
-        sh "sudo docker build -t gitops:1.1 ."
+        sh "sudo docker build -t gitops:${env.BUILD_ID} ."
         sh "sudo docker images"
 
         }     
@@ -31,7 +31,7 @@ pipeline {
     stage("Tag Image"){
      steps{
         echo "retag the image for the final push"
-       sh "sudo docker tag gitops:1.1 nwajienelson/gitops:1.1"
+       sh "sudo docker tag gitops:${env.BUILD_ID} nwajienelson/gitops:${env.BUILD_ID}"
       }
     }
     stage("Push Image"){
@@ -40,7 +40,7 @@ pipeline {
         withCredentials([string(credentialsId: 'docker_password', variable: 'docker_password')]) {
           
         sh 'docker login -u $docker_username -p $docker_password'
-        sh "docker push nwajienelson/gitops:1.1"
+        sh "docker push nwajienelson/gitops:${env.BUILD_ID}"
    
         }
  
